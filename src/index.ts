@@ -36,35 +36,10 @@ async function initMap() {
         ]
       }
     ],
-    zoom: 17
+    zoom: 17,
+    disableDefaultUI: true
   });
   
-  function createDataLayerButton() {
-    const refreshControl = document.createElement("button");
-    refreshControl.className = "custom-control";
-    refreshControl.type = "button";
-
-    refreshControl.disabled = false;
-    refreshControl.innerText = `Fetch data layers`;
-  
-    refreshControl.addEventListener("click", () => {
-      refreshControl.disabled = true;
-      refreshControl.innerText = `Fetching data layers...`;
-
-      getDataLayerForCoordinates("IMAGERY_AND_ANNUAL_FLUX_LAYERS", map.getCenter()!.toJSON()).finally(() => {
-        refreshControl.disabled = false;
-        refreshControl.innerText = `Fetch data layers`;
-      });
-    });
-    
-    const centerControl = document.createElement("div");
-    centerControl.appendChild(refreshControl);
-    
-    map.controls[google.maps.ControlPosition.TOP_CENTER].push(centerControl);
-  };
-
-  createDataLayerButton();
-
   getDataLayerForCoordinates("IMAGERY_AND_ANNUAL_FLUX_LAYERS", map.getCenter()!.toJSON());
 
   async function getDataLayerForCoordinates(layer: DataLayerView, coordinate: google.maps.LatLngLiteral) {
