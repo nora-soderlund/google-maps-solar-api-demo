@@ -95,8 +95,8 @@ export default async function getDataLayersCanvas() {
   const context = canvas.getContext("2d") as CanvasRenderingContext2D;
 
   const canvases = await Promise.all([
-    getDataLayerFluxCanvas(.75),
-    getDataLayerMaskCanvas(.75),
+    getDataLayerFluxCanvas(1),
+    getDataLayerMaskCanvas(1),
     //getDataLayerRgbCanvas(dataLayers)
   ]);
   
