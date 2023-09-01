@@ -82,11 +82,11 @@ async function initMap() {
       spherical.computeOffset(coordinate, radius, 270)
     ];
 
-    const dataLayers = await getDataLayers(GOOGLE_MAPS_API_KEY, {
+    /*const dataLayers = await getDataLayers(GOOGLE_MAPS_API_KEY, {
       location: coordinate,
       radiusMeters: radius,
       view: layer
-    });
+    });*/
 
     const bounds = new google.maps.LatLngBounds();
 
@@ -94,7 +94,7 @@ async function initMap() {
       bounds.extend(coordinate);
     });
 
-    const image = await getDataLayersCanvas(dataLayers);
+    const image = await getDataLayersCanvas();
 
     const dataLayerOverlay = DataLayerOverlay.create(bounds, image);
 

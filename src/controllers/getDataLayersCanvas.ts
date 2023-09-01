@@ -15,8 +15,8 @@ import * as GeoTIFF from "geotiff.js/dist/geotiff.bundle.min.js";
   return tiff.toCanvas();
 };*/
 
-export async function getDataLayerMaskCanvas(dataLayers: DataLayers) {
-  const tiffImageBuffer = await getTiff(GOOGLE_MAPS_API_KEY, dataLayers.maskUrl!);
+export async function getDataLayerMaskCanvas() {
+  const tiffImageBuffer = await (await fetch("./images/geoTiff_2.tif")).arrayBuffer();
 
   const tiff = await GeoTIFF.fromArrayBuffer(tiffImageBuffer);
   const tiffImage = await tiff.getImage();
@@ -42,8 +42,8 @@ export async function getDataLayerMaskCanvas(dataLayers: DataLayers) {
   return canvas;
 };
 
-export async function getDataLayerFluxCanvas(dataLayers: DataLayers, scale: number) {
-  const tiffImageBuffer = await getTiff(GOOGLE_MAPS_API_KEY, dataLayers.annualFluxUrl!);
+export async function getDataLayerFluxCanvas(scale: number) {
+  const tiffImageBuffer = await (await fetch("./images/geoTiff_1.tif")).arrayBuffer();
 
   const tiff = await GeoTIFF.fromArrayBuffer(tiffImageBuffer);
   const tiffImage = await tiff.getImage();
@@ -82,7 +82,7 @@ export async function getDataLayerFluxCanvas(dataLayers: DataLayers, scale: numb
   return canvas;
 };
 
-export default async function getDataLayersCanvas(dataLayers: DataLayers) {
+export default async function getDataLayersCanvas() {
   const canvas = document.createElement("canvas");
 
   const expectedSize = 2000;
@@ -95,8 +95,8 @@ export default async function getDataLayersCanvas(dataLayers: DataLayers) {
   const context = canvas.getContext("2d") as CanvasRenderingContext2D;
 
   const canvases = await Promise.all([
-    getDataLayerFluxCanvas(dataLayers, 1),
-    getDataLayerMaskCanvas(dataLayers),
+    getDataLayerFluxCanvas(1),
+    getDataLayerMaskCanvas(),
     //getDataLayerRgbCanvas(dataLayers)
   ]);
   
