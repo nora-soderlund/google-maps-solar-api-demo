@@ -15,7 +15,7 @@ import * as GeoTIFF from "geotiff.js/dist/geotiff.bundle.min.js";
   return tiff.toCanvas();
 };*/
 
-export async function getDataLayerMaskCanvas() {
+export async function getDataLayerMaskCanvas(scale: number) {
   const tiffImageBuffer = await (await fetch("./images/geoTiff_2.tif")).arrayBuffer();
 
   const tiff = await GeoTIFF.fromArrayBuffer(tiffImageBuffer);
@@ -24,17 +24,17 @@ export async function getDataLayerMaskCanvas() {
 
   const canvas = document.createElement("canvas");
 
-  canvas.width = tiffData.width;
-  canvas.height = tiffData.height;
+  canvas.width = tiffData.width * scale;
+  canvas.height = tiffData.height * scale;
 
   const context = canvas.getContext("2d") as CanvasRenderingContext2D;
 
-  for(let row = 0; row < tiffData.height; row++) 
-  for(let column = 0; column < tiffData.width; column++) {
+  for(let row = 0; row < tiffData.height; row += Math.round(1 / scale)) 
+  for(let column = 0; column < tiffData.width; column += Math.round(1 / scale)) {
     const index = (row * tiffData.width) + column;
 
     if(tiffData[0][index])
-      context.fillRect(column, row, 1, 1);
+      context.fillRect(column * scale, row * scale, 1, 1);
   }
 
   console.log({ mask: canvas });
@@ -95,8 +95,8 @@ export default async function getDataLayersCanvas() {
   const context = canvas.getContext("2d") as CanvasRenderingContext2D;
 
   const canvases = await Promise.all([
-    getDataLayerFluxCanvas(1),
-    getDataLayerMaskCanvas(),
+    getDataLayerFluxCanvas(.5),
+    getDataLayerMaskCanvas(.5),
     //getDataLayerRgbCanvas(dataLayers)
   ]);
   
