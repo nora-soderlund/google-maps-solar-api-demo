@@ -1,0 +1,2 @@
+export type DataLayerView = "DATA_LAYER_VIEW_UNSPECIFIED" | "DSM_LAYER" | "IMAGERY_LAYERS" | "IMAGERY_AND_ANNUAL_FLUX_LAYERS" | "IMAGERY_AND_ALL_FLUX_LAYERS" | "FULL_LAYERS";
+//# sourceMappingURL=DataLayerView.d.ts.map
