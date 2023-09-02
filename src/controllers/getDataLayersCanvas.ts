@@ -93,23 +93,16 @@ export default async function getDataLayersCanvas() {
   canvas.height = size;
 
   const context = canvas.getContext("2d") as CanvasRenderingContext2D;
-
-  const canvases = await Promise.all([
-    getDataLayerFluxCanvas(1),
-    getDataLayerMaskCanvas(1),
-    //getDataLayerRgbCanvas(dataLayers)
-  ]);
   
+  return new Promise<HTMLCanvasElement>((resolve) => {
+    const image = new Image();
 
-  context.drawImage(canvases[0], 0, 0, canvases[0].width, canvases[0].height, 0, 0, size, size);
+    image.onload = () => {
+      context.drawImage(image, 0, 0, image.width, image.height, 0, 0, size, size);
+      
+      resolve(canvas);
+    };
 
-  context.globalCompositeOperation = "destination-in";
-  context.drawImage(canvases[1], 0, 0, canvases[1].width, canvases[1].height, 0, 0, size, size);
-
-  console.log({ result: canvas });
-
-  //context.globalCompositeOperation = "destination-over";
-  //context.drawImage(canvases[2], 0, 0, canvases[2].width, canvases[2].height, 0, 0, size, size);
-
-  return canvas;
+    image.src = "images/grid.png";
+  });
 };

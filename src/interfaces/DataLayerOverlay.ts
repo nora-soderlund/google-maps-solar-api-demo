@@ -22,6 +22,8 @@ export default class DataLayerOverlay {
         this.image.style.width = "100%";
         this.image.style.height = "100%";
         this.image.style.position = "absolute";
+        this.image.style.border = "6px solid #8b9bba";
+        this.image.style.boxSizing = "border-box";
         this.element.append(this.image);
     
         const panes = this.getPanes();
